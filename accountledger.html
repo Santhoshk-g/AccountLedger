@@ -1,0 +1,81 @@
+<template>
+    <lightning-card icon-name="standard:connect_wallet" title='Account Ledger'>
+        
+<div if:false={isMobileLayout}>       
+<lightning-layout>
+                
+              <lightning-combobox label="Sales Area" value={selectarea} required="true"
+                        class="slds-p-around_medium" options={data} onchange={handlesalesChange}>
+                    </lightning-combobox>
+                
+                    <div class="slds-size_1-of-3">
+                    <lightning-combobox label="Bill to Customer" value={billcustomer} required="true"
+                        class="slds-p-around_medium" options={data2} onchange={handlebillchange}>
+                    </lightning-combobox></div>
+            
+
+            
+                    <lightning-input label="From date" type="date" value={fdate} onchange={handleFdateChange}
+                     required="true"   class="slds-p-around_medium">
+
+                    </lightning-input>
+                
+                    <lightning-input label="End date" type="date" value={edate} onchange={handleEdateChange}
+                      required="true"  class="slds-p-around_medium">
+                    </lightning-input>
+            
+        
+            <div style="padding-top:39px;">
+                
+                    <span><lightning-button label="Submit" variant="brand" class="slds-p-around_medium"
+                            onclick={submit}></lightning-button></span>
+            
+            </div>
+            <div style="padding-top:39px;" if:true={datafound}>
+                
+                    <span><lightning-button label="Download" variant="brand" class="slds-p-around_medium"
+                        icon-name="utility:download" onclick={exportToExcel}></lightning-button></span>
+                
+            </div>
+    
+    </lightning-layout></div>
+    <div if:true={isMobileLayout}>
+        <lightning-combobox label="Sales Area" value={selectarea} required="true"
+                        class="slds-p-around_medium" options={data} onchange={handlesalesChange}>
+                    </lightning-combobox>
+                    <lightning-combobox label="Bill to Customer" value={billcustomer} required="true"
+                        class="slds-p-around_medium" options={data2} onchange={handlebillchange}>
+                    </lightning-combobox>
+                    <lightning-input label="From date" type="date" value={fdate} onchange={handleFdateChange}
+                      required="true" class="slds-p-around_medium">
+                 </lightning-input>
+                 <lightning-input label="End date" type="date" value={edate} onchange={handleEdateChange}
+                      required="true"  class="slds-p-around_medium">
+                    </lightning-input>
+                    <lightning-button label="Submit" variant="brand" class="slds-p-around_medium"
+                            onclick={submit}></lightning-button>
+                            <lightning-button label="Download" variant="brand" class="slds-p-around_medium"
+                        icon-name="utility:download" onclick={exportToExcel}></lightning-button>
+
+    </div>
+        <template if:true={datafound}>
+            <lightning-datatable
+                          key-field="DocumentNo"
+                          data={finaldata}
+                          columns={ledgerColumn}
+                          
+                          hide-checkbox-column></lightning-datatable>
+        </template>
+        <template if:true={loaded}>
+            <lightning-spinner alternative-text="Loading"></lightning-spinner>
+        </template>
+        <template if:true={errors}>
+            <div style="margin-right:3rem">
+                <div if:true={error} class="slds-text-color_destructive" >
+                <b> {error}</b>
+            </div>
+        </div>
+           
+        </template>
+    </lightning-card>
+</template>
